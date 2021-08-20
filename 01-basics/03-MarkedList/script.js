@@ -1,4 +1,4 @@
-// import { createApp } from './vendor/vue.esm-browser.js';
+import { createApp, defineComponent } from './vendor/vue.esm-browser.js';
 
 // From https://jsonplaceholder.typicode.com/comments
 const emails = [
@@ -30,3 +30,27 @@ const emails = [
 ];
 
 // Требуется создать Vue приложение
+const Root = defineComponent({
+  name: 'Root',
+  data() {
+    return {
+        emails,
+        filter: {
+          srch: '',
+        },
+    };
+  },
+  computed: {
+    filteredEmails() {
+      return emails.map(element => (
+          {
+            txt: element,
+            finded: this.filter.srch != '' && element.indexOf(this.filter.srch) != -1,
+          }
+        )
+      );
+    },
+  },
+});
+
+window.vm = createApp(Root).mount('#app');
